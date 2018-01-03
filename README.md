@@ -1,61 +1,31 @@
-# TOC Project 2017
+# Chat-Bot
 
-Template Code for TOC Project 2017
+There are three function of my Chat-Bot
 
-A telegram bot based on a finite state machine
+## time
 
-## Setup
+* Import time & use asctime to make it
 
-### Prerequisite
-* Python 3
+## echo
 
-#### Install Dependency
-```sh
-pip install -r requirements.txt
-```
+There are three state
 
-* pygraphviz (For visualizing Finite State Machine)
-    * [Setup pygraphviz on Ubuntu](http://www.jianshu.com/p/a3da7ecc5303)
+### notice
 
-### Secret Data
+* only run once
 
-`API_TOKEN` and `WEBHOOK_URL` in app.py **MUST** be set to proper values.
-Otherwise, you might not be able to run your code.
+* notice user the rules
 
-### Run Locally
-You can either setup https server or using `ngrok` as a proxy.
+### echo
 
-**`ngrok` would be used in the following instruction**
+* read user type
 
-```sh
-ngrok http 5000
-```
+### repeat
 
-After that, `ngrok` would generate a https URL.
+* print user type, then turn back to echo
 
-You should set `WEBHOOK_URL` (in app.py) to `your-https-URL/hook`.
+## count
 
-#### Run the sever
+* use sleep to make it
 
-```sh
-python3 app.py
-```
-
-## Finite State Machine
-![fsm](./img/show-fsm.png)
-
-## Usage
-The initial state is set to `user`.
-
-Every time `user` state is triggered to `advance` to another state, it will `go_back` to `user` state after the bot replies corresponding message.
-
-* user
-	* Input: "go to state1"
-		* Reply: "I'm entering state1"
-
-	* Input: "go to state2"
-		* Reply: "I'm entering state2"
-
-
-## Author
-[Lee-W](https://github.com/Lee-W)
+* it can't pause or bread QQ

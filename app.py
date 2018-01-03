@@ -7,37 +7,75 @@ from flask import Flask, request, send_file
 from fsm import TocMachine
 
 
-API_TOKEN = 'Your Telegram API Token'
-WEBHOOK_URL = 'Your Webhook URL'
+API_TOKEN = '521030858:AAEJsZO_YYPldQoMcQr-u2LE4AzyubTQEs0'
+WEBHOOK_URL = 'https://12895470.ngrok.io/hook'
 
 app = Flask(__name__)
 bot = telegram.Bot(token=API_TOKEN)
 machine = TocMachine(
     states=[
         'user',
-        'state1',
-        'state2'
+        'time',
+        'count',
+        'start_count',
+        'echo',
+        'repeat',
+        'notice'
     ],
     transitions=[
         {
             'trigger': 'advance',
             'source': 'user',
-            'dest': 'state1',
-            'conditions': 'is_going_to_state1'
+            'dest': 'time',
+            'conditions': 'is_going_to_time'
         },
         {
             'trigger': 'advance',
             'source': 'user',
-            'dest': 'state2',
-            'conditions': 'is_going_to_state2'
+            'dest': 'count',
+            'conditions': 'is_going_to_count'
         },
         {
             'trigger': 'go_back',
             'source': [
-                'state1',
-                'state2'
+                'time',
+                'start_count'
             ],
             'dest': 'user'
+        },
+        {
+            'trigger': 'advance',
+            'source': 'count',
+            'dest': 'start_count',
+            'conditions': 'is_going_to_start_count'
+        },
+        {
+            'trigger': 'advance',
+            'source': 'user',
+            'dest': 'notice',
+            'conditions': 'is_going_to_notice'
+        },
+        {
+            'trigger': 'going_to_echo',
+            'source': 'notice',
+            'dest': 'echo',
+        },
+        {
+            'trigger': 'advance',
+            'source': 'echo',
+            'dest': 'repeat',
+            'conditions': 'is_going_to_repeat'
+        },
+        {
+            'trigger': 'repeat_back',
+            'source': 'repeat',
+            'dest': 'echo',
+        },
+        {
+            'trigger': 'advance',
+            'source': 'echo',
+            'dest': 'user',
+            'conditions': 'is_going_to_user'
         }
     ],
     initial='user',
@@ -72,4 +110,4 @@ def show_fsm():
 
 if __name__ == "__main__":
     _set_webhook()
-    app.run()
+    app.run(port=5000)
